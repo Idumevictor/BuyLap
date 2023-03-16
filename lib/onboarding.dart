@@ -116,6 +116,7 @@ class _OnboardingState extends State<Onboarding> {
                   activeDotColor: Colors.yellow,
                   dotColor: Colors.grey,
                 )
+                
                 // SwapEffect(
                 //   activeDotColor: Color(0xff0F68ED),
                 //   dotColor: Color(0xffC4C4C4),
