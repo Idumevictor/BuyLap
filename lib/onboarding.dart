@@ -1,6 +1,7 @@
 import 'dart:async';
-
+import 'package:buylap/log_in_page.dart';
 import 'package:buylap/sign_up_page.dart';
+import 'package:buylap/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -13,42 +14,36 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Timer(
-        Duration(seconds: 3),
-        (() => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext) => SignUp()))));
-  }
-
   final controller = PageController();
+  int value = 0;
+  // var progressValue = (100 * PageController.).toInt();
 
   @override
   Widget build(BuildContext context) {
-    // double _height = MediaQuery.of(context).size.height;
-    double _width = MediaQuery.of(context).size.width;
-    // print(_width);
+    SizeConfig.init(context);
+    // print(width);
     return Scaffold(
       backgroundColor: Colors.black,
       body: PageView(
         controller: controller,
         children: [
+          // SizedBox(height: 20,),
           buildPageViewColumn(
-              imageName: 'images/page1.png',
-              titleText: 'Planning Made Easy',
+              imageName: 'images/image1.png',
+              titleText: 'Find Your Product',
               subtitleText:
                   'Ease up your mind and free up your space. You are not overwhelmed, you just need to plan.'),
           buildPageViewColumn(
               imageName: 'images/page1.png',
-              titleText: 'Schedule Your Tasks',
+              titleText: 'Create Your Own Business',
               subtitleText:
                   'Things get a lot better when you properly schedule your daily task and activites.'),
           buildPageViewColumn(
-              imageName: 'images/page1.png',
-              titleText: 'Team Up With Members',
-              subtitleText:
-                  'Are work tasks hard to monitor? You can now work better and be accountable to your team members.'),
+            imageName: 'images/sells.png',
+            titleText: 'Sell Your Own Products',
+            subtitleText:
+                'Are work tasks hard to monitor? You can now work better and be accountable to your team members.',
+          ),
         ],
       ),
     );
@@ -61,9 +56,12 @@ class _OnboardingState extends State<Onboarding> {
   }) {
     return Column(
       children: [
+        SizedBox(
+          height: getProportionateScreenHeight(100),
+        ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 52),
-          height: 200,
+          height: getProportionateScreenHeight(300),
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -74,7 +72,7 @@ class _OnboardingState extends State<Onboarding> {
           ),
         ),
         SizedBox(
-          height: 40,
+          height: getProportionateScreenHeight(40),
         ),
         Text(
           titleText,
@@ -82,12 +80,12 @@ class _OnboardingState extends State<Onboarding> {
             color: Colors.white,
             fontFamily: 'Sen',
             fontStyle: FontStyle.normal,
-            fontSize: 24,
+            fontSize: 30,
             fontWeight: FontWeight.w700,
           ),
         ),
         SizedBox(
-          height: 40,
+          height: getProportionateScreenHeight(40),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -96,14 +94,14 @@ class _OnboardingState extends State<Onboarding> {
             style: TextStyle(
                 fontFamily: 'Sen',
                 fontStyle: FontStyle.normal,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
                 color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
         SizedBox(
-          height: 35,
+          height: getProportionateScreenHeight(70),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -113,30 +111,71 @@ class _OnboardingState extends State<Onboarding> {
                 controller: controller,
                 count: 3,
                 effect: ExpandingDotsEffect(
-                  activeDotColor: Colors.yellow,
-                  dotColor: Colors.grey,
-                )
-                
-                // SwapEffect(
-                //   activeDotColor: Color(0xff0F68ED),
-                //   dotColor: Color(0xffC4C4C4),
-                //   dotHeight: 15,
-                //   dotWidth: 15,
-                // ),
-                ),
+                  dotHeight: 10,
+                  activeDotColor: Color(0xfffec619),
+                  dotColor: Colors.white,
+                )),
           ],
         ),
-        CircularPercentIndicator(
-          radius: 50,
-          lineWidth: 5,
-          percent: 0.2,
-          center: new Icon(
-            Icons.arrow_circle_right,
-            size: 50.0,
-            color: Colors.yellow,
-          ),
-          backgroundColor: Colors.grey,
-          progressColor: Colors.yellow,
+        SizedBox(
+          height: getProportionateScreenHeight(100),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              height: getProportionateScreenHeight(50),
+              width: getProportionateScreenWidth(200),
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Color(0xfffec619),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                  onPressed: (() {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext) => SignUp()));
+                  }),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Raleway-Regular',
+                    ),
+                  )),
+            ),
+            SizedBox(
+              height: getProportionateScreenHeight(50),
+              width: getProportionateScreenWidth(200),
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Color(0xfffec619),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                  onPressed: (() {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext) => LogIn()));
+                  }),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Raleway-Regular',
+                    ),
+                  )),
+            ),
+          ],
         ),
       ],
     );

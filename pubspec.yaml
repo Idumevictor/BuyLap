@@ -37,6 +37,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   smooth_page_indicator: ^1.0.1
   percent_indicator: ^4.2.3
+  firebase_core: ^2.7.1
+  cloud_firestore: ^4.4.4
+  firebase_auth: ^4.2.10
+  device_preview: ^1.1.0
+  file_picker: ^5.2.6
+  dotted_border: ^2.0.0+3
+  intl: ^0.17.0
+  image_picker: ^0.8.7
+  firebase_storage: ^11.0.16
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +98,11 @@ flutter:
     - family: Cairo
       fonts:
         - asset: fonts/Cairo-Regular.ttf
+    - family: Lobster
+      fonts:
+        - asset: fonts/Lobster-Regular.ttf
+        
+        
   # fonts:
   #   - family: Schyler
   #     fonts:

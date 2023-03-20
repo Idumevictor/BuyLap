@@ -1,11 +1,11 @@
+import 'package:buylap/util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'log_in_page.dart';
 
 class SignUp extends StatefulWidget {
-  SignUp({super.key});
-
   @override
   State<SignUp> createState() => _SignUpState();
 }
@@ -13,11 +13,10 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isVisible = true;
   bool isVisible1 = true;
-  final _FirstNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _LastNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final GlobalKey<FormState> _signUpKey = GlobalKey<FormState>();
 
   @override
@@ -26,299 +25,300 @@ class _SignUpState extends State<SignUp> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-          ),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 15),
           child: SingleChildScrollView(
             child: Form(
               key: _signUpKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 27,
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Connect With Us',
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Image(
+                        image: AssetImage('images/logo12.png'),
+                        height: 120,
+                        width: 120,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Center(
+                      child: Text(
+                        'Register With Us @ ',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'Lato-Regular',
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                             fontSize: 14),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Center(
-                    child: Text(
-                      'BuyLap',
-                      style: TextStyle(
-                          fontFamily: 'Lato-Regular',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26),
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Text(
-                    'First Name',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Lato-Regular'),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    controller: _FirstNameController,
-                    validator: (value) {
-                      if (_FirstNameController.text.isEmpty) {
-                        return 'Enter First Name';
-                      } else {
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.grey,
-                      hintText: 'Your full name',
-                    ),
-                    keyboardType: TextInputType.name,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    'Last Name',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Lato-Regular'),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    controller: _LastNameController,
-                    validator: (value) {
-                      if (_LastNameController.text.isEmpty) {
-                        return 'Enter Last Name';
-                      } else {
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.grey,
-                      hintText: 'Your Last Name name',
-                    ),
-                    keyboardType: TextInputType.name,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    'Email',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Lato-Regular'),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.zero),
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Colors.grey,
-                        hintText: 'Your email@gmail.com',
+                    SizedBox(height: 4),
+                    Center(
+                      child: Text(
+                        'BuyLap',
+                        style: TextStyle(
+                            fontFamily: 'Lobster-Regular',
+                            color: Colors.yellow,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 26),
                       ),
-                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      'First Name',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Lato-Regular'),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      controller: _firstNameController,
+                      cursorColor: Colors.black,
                       validator: (value) {
-                        if (_emailController.text.isEmpty) {
-                          return 'Enter email address';
+                        if (_firstNameController.text.isEmpty) {
+                          return 'Enter First Name';
                         } else {
                           return null;
                         }
-                      }),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    'Phone Number',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Lato-Regular'),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    controller: _phoneNumberController,
-                    validator: (value) {
-                      if (_phoneNumberController.text.length < 11) {
-                        return 'Enter complete phone number';
-                      } else {
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.grey,
-                      hintText: '+234',
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    'Password',
-                    style: TextStyle(
-                        color: Color(0xff484848),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Lato-Regular'),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (_passwordController.text.isEmpty) {
-                        return 'Enter Password';
-                      } else {
-                        return null;
-                      }
-                    },
-                    obscureText: isVisible,
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.zero),
-                        border: InputBorder.none,
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
                         filled: true,
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: Colors.black,
+                        ),
                         fillColor: Colors.grey,
-                        hintText: '**********',
-                        suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isVisible = !isVisible;
-                              });
-                            },
-                            child: isVisible
-                                ? Icon(
-                                    Icons.visibility,
-                                    color: Colors.white,
-                                  )
-                                : Icon(
-                                    Icons.visibility_off,
-                                    color: Colors.white,
-                                  ))),
-                    keyboardType: TextInputType.text,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  SizedBox(
-                    height: 70,
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Colors.yellow,
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ))),
-                        onPressed: (() {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext) => LogIn()));
-                        }),
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Lato-Regular',
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    height: 36,
-                  ),
-                  Center(
-                    child: RichText(
-                      text: TextSpan(
-                          text: 'Already have an account?',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: ' Sign In ',
-                                style: TextStyle(
-                                    color: Colors.yellow,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext) =>
-                                                LogIn()));
-                                  })
-                          ]),
+                        hintText: 'Full name',
+                      ),
+                      keyboardType: TextInputType.name,
                     ),
-                  ),
-                  SizedBox(
-                    height: 45,
-                  )
-                ],
-              ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'Last Name',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Lato-Regular'),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      controller: _lastNameController,
+                      cursorColor: Colors.black,
+                      validator: (value) {
+                        if (_lastNameController.text.isEmpty) {
+                          return 'Enter Last Name';
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        filled: true,
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: Colors.black,
+                        ),
+                        fillColor: Colors.grey,
+                        hintText: 'Last Name',
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      'Email',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Lato-Regular'),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                        controller: _emailController,
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          border:
+                              OutlineInputBorder(borderSide: BorderSide.none),
+                          filled: true,
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.black,
+                          ),
+                          fillColor: Colors.grey,
+                          hintText: 'Your email@gmail.com',
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (_emailController.text.isEmpty) {
+                            return 'Email address';
+                          } else {
+                            return null;
+                          }
+                        }),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      'Password',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Lato-Regular'),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      cursorColor: Colors.black,
+                      validator: (value) {
+                        if (_passwordController.text.isEmpty) {
+                          return 'Enter Password';
+                        } else {
+                          return null;
+                        }
+                      },
+                      obscureText: isVisible,
+                      decoration: InputDecoration(
+                          border:
+                              OutlineInputBorder(borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Colors.grey,
+                          hintText: '**********',
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Colors.black,
+                          ),
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isVisible = !isVisible;
+                                });
+                              },
+                              child: isVisible
+                                  ? Icon(
+                                      Icons.visibility,
+                                      color: Colors.black,
+                                    )
+                                  : Icon(
+                                      Icons.visibility_off,
+                                      color: Colors.black,
+                                    ))),
+                      keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Color(0xfffec619),
+                              ),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ))),
+                          onPressed: (() {
+                            signUp();
+                          }),
+                          child: Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Lato-Regular',
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 36,
+                    ),
+                    Center(
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Already have an account?',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: ' Log In ',
+                                  style: TextStyle(
+                                      color: Color(0xfffec619),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext) =>
+                                                  LogIn()));
+                                    })
+                            ]),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                  ]),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future signUp() async {
+    final isValid = _signUpKey.currentState!.validate();
+    if (!isValid) return;
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text)
+          .then((value) => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext) => LogIn())));
+      //           FirebaseFirestore.instance
+      //     .collection('userData')
+      //     .doc(value.user!.uid)
+      //     .set({
+      //   'email': value.user!.email,
+      //   'first_name': _firstNameController.text,
+      //   'last_name': _lastNameController.text
+      // })
+    } on FirebaseAuthException catch (e) {
+      failureSnackBar(context: context, message: e.message.toString());
+    }
+    Navigator.pop(context);
+    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

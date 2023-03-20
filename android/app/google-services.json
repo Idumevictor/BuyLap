@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "920134048783",
+    "project_id": "buylap-5a7df",
+    "storage_bucket": "buylap-5a7df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920134048783:android:25d29cde3449ddef2fd77a",
+        "android_client_info": {
+          "package_name": "com.gallant.buylap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920134048783-0nilo55d9rlsb40v5m4b8h6kv4sakrrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgpUpmXljn3Rn30jxGXTF-jA0ezyBmZ1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920134048783-0nilo55d9rlsb40v5m4b8h6kv4sakrrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920134048783:android:f3c140584ec493cd2fd77a",
+        "android_client_info": {
+          "package_name": "com.grazac.buylap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920134048783-0nilo55d9rlsb40v5m4b8h6kv4sakrrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgpUpmXljn3Rn30jxGXTF-jA0ezyBmZ1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920134048783-0nilo55d9rlsb40v5m4b8h6kv4sakrrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,13 @@
-import 'package:buylap/home_screen.dart';
 import 'package:buylap/sign_up_page.dart';
+import 'package:buylap/util.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'Home.dart';
+
 class LogIn extends StatefulWidget {
-  LogIn({super.key});
+  const LogIn({super.key});
 
   @override
   State<LogIn> createState() => _LogInState();
@@ -14,7 +17,7 @@ class _LogInState extends State<LogIn> {
   bool isVisible = true;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final GlobalKey<FormState> _signUpKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _logInKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,35 +26,32 @@ class _LogInState extends State<LogIn> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
+            top: 24,
             left: 20,
             right: 20,
           ),
           child: SingleChildScrollView(
             child: Form(
-              key: _signUpKey,
+              key: _logInKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 27,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
+                  Center(
+                    child: Image(
+                      image: AssetImage(
+                        'images/logo12.png',
+                      ),
+                      height: 120,
+                      fit: BoxFit.contain,
+                      width: 120,
                     ),
                   ),
-                  SizedBox(
-                    height: 40,
-                  ),
+                  SizedBox(height: 8),
                   Center(
                     child: Text(
                       'Welcome to ',
                       style: TextStyle(
-                          fontFamily: 'Lato-Regular',
+                          fontFamily: 'Lobster-Regular',
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 14),
@@ -62,8 +62,8 @@ class _LogInState extends State<LogIn> {
                     child: Text(
                       'BuyLap',
                       style: TextStyle(
-                          fontFamily: 'Lato-Regular',
-                          color: Colors.white,
+                          fontFamily: 'Raleway-Regular',
+                          color: Color(0xfffec619),
                           fontWeight: FontWeight.w700,
                           fontSize: 26),
                     ),
@@ -95,12 +95,14 @@ class _LogInState extends State<LogIn> {
                   ),
                   TextFormField(
                     controller: _emailController,
+                    cursorColor: Colors.black,
                     decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      border: InputBorder.none,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
                       filled: true,
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),
                       fillColor: Colors.grey,
                       hintText: 'Your email@gmail.com',
                     ),
@@ -123,12 +125,14 @@ class _LogInState extends State<LogIn> {
                   TextFormField(
                     controller: _passwordController,
                     obscureText: isVisible,
+                    cursorColor: Colors.black,
                     decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.zero),
-                        border: InputBorder.none,
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
                         filled: true,
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Colors.black,
+                        ),
                         fillColor: Colors.grey,
                         hintText: '**********',
                         suffixIcon: GestureDetector(
@@ -141,32 +145,13 @@ class _LogInState extends State<LogIn> {
                             child: isVisible
                                 ? Icon(
                                     Icons.visibility,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   )
                                 : Icon(
                                     Icons.visibility_off,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ))),
                     keyboardType: TextInputType.text,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext) => Home()));
-                        },
-                        child: Text(
-                          'Forget Password?',
-                          style: TextStyle(
-                              color: Colors.yellow,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Lato-Regular'),
-                        ),
-                      )
-                    ],
                   ),
                   SizedBox(
                     height: 40,
@@ -177,13 +162,14 @@ class _LogInState extends State<LogIn> {
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              Colors.yellow,
+                              Color(0xfffec619),
                             ),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ))),
                         onPressed: (() {
+                          logIn();
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext) => Home()));
                         }),
@@ -206,14 +192,14 @@ class _LogInState extends State<LogIn> {
                           text: 'Don\'t have an account?',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400),
                           children: <TextSpan>[
                             TextSpan(
                                 text: ' Sign up ',
                                 style: TextStyle(
-                                    color: Colors.yellow,
-                                    fontSize: 10,
+                                    color: Color(0xfffec619),
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w600),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
@@ -235,5 +221,30 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+  }
+
+  Future logIn() async {
+    final isValid = _logInKey.currentState!.validate();
+    if (!isValid) return;
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
+
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text)
+          .then((value) => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext) => Home())));
+    } on FirebaseAuthException catch (e) {
+      failureSnackBar(context: context, message: e.message.toString());
+    }
+    Navigator.pop(context);
+
+    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
