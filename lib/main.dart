@@ -1,3 +1,4 @@
+import 'package:buylap/Home.dart';
 import 'package:buylap/log_in_page.dart';
 import 'package:buylap/sign_up_page.dart';
 import 'package:device_preview/device_preview.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       // );
       home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
+          builder: (context, snapshot) {            
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(),
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
                 child: Text('An error has occur'),
               );
             } else if (snapshot.hasData) {
-              return LogIn();
+              final user = FirebaseAuth.instance.currentUser;
+              return Home(id: user!.uid.toString(),);
             } else {
               return SplashScreen();
             }

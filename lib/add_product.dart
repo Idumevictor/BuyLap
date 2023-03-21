@@ -45,9 +45,7 @@ class _AddProductState extends State<AddProduct> {
         Navigator.pop(context);
         warningSnackBar(context: context, message: 'No Image picked');
       }
-    } on PlatformException catch (e) {
-    
-    }
+    } on PlatformException catch (e) {}
   }
 
   UploadTask? uploadTask;
@@ -61,12 +59,9 @@ class _AddProductState extends State<AddProduct> {
       uploadTask = imageRef.putFile(_file);
     });
 
-    
-
     final snapshot = await uploadTask!.whenComplete(() {});
     final imageLink = await snapshot.ref.getDownloadURL();
     imageUrl = imageLink;
-   
 
     setState(() {
       uploadTask = null;
@@ -102,6 +97,7 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     SizeConfig.init(context);
     return Scaffold(
       backgroundColor: Colors.black,
@@ -150,17 +146,19 @@ class _AddProductState extends State<AddProduct> {
                                 child: Column(
                                   children: [
                                     SizedBox(
-                                      height: 53.2,
+                                      height:
+                                          getProportionateScreenHeight(53.2),
                                     ),
                                     Icon(Icons.picture_in_picture),
                                     SizedBox(
-                                      height: 24.11,
+                                      height:
+                                          getProportionateScreenHeight(24.11),
                                     ),
                                     Text(
                                       'Max size limit of 5MB',
                                     ),
                                     SizedBox(
-                                      height: 8,
+                                      height: getProportionateScreenHeight(8),
                                     ),
                                     Text(
                                         'Only JPEG and PNG format are accepted')
@@ -190,8 +188,9 @@ class _AddProductState extends State<AddProduct> {
                               },
                               child: Container(
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                height: 200,
+                                    horizontal: getProportionateScreenHeight(8),
+                                    vertical: getProportionateScreenWidth(10)),
+                                height: getProportionateScreenHeight(200),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
@@ -209,7 +208,7 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 buildProgess(),
                 SizedBox(
-                  height: 20,
+                  height: getProportionateScreenHeight(20),
                 ),
                 inputField(
                     inputController: _nameController, text: 'Laptop Name'),
@@ -220,10 +219,10 @@ class _AddProductState extends State<AddProduct> {
                     inputController: _descriptionController,
                     text: 'Enter product description'),
                 SizedBox(
-                  height: 50,
+                  height: getProportionateScreenHeight(50),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: getProportionateScreenHeight(50),
                   width: double.infinity,
                   child: ElevatedButton(
                       style: ButtonStyle(
@@ -274,7 +273,7 @@ class _AddProductState extends State<AddProduct> {
               await getImage(ImageSource.gallery);
             },
           ),
-          SizedBox(height: 50),
+          SizedBox(height: getProportionateScreenHeight(50)),
         ],
       ),
     );
@@ -285,8 +284,8 @@ class _AddProductState extends State<AddProduct> {
       required String buttonText,
       required IconData pixIcon}) {
     return SizedBox(
-      height: 60,
-      width: 366,
+      height: getProportionateScreenHeight(60),
+      width: getProportionateScreenWidth(366),
       child: ElevatedButton(
         onPressed: onPressed,
         child: Padding(
@@ -301,7 +300,7 @@ class _AddProductState extends State<AddProduct> {
                     color: Colors.white,
                   ),
                   SizedBox(
-                    width: 18,
+                    width: getProportionateScreenWidth(18),
                   ),
                   Text(
                     buttonText,
@@ -351,7 +350,7 @@ class _AddProductState extends State<AddProduct> {
           },
         ),
         SizedBox(
-          height: 10,
+          height: getProportionateScreenHeight(10),
         ),
       ],
     );

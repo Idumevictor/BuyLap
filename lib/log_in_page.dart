@@ -1,4 +1,5 @@
 import 'package:buylap/sign_up_page.dart';
+import 'package:buylap/size_config.dart';
 import 'package:buylap/util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -21,6 +22,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -41,9 +43,9 @@ class _LogInState extends State<LogIn> {
                       image: AssetImage(
                         'images/logo12.png',
                       ),
-                      height: 120,
+                      height: getProportionateScreenHeight(120),
                       fit: BoxFit.contain,
-                      width: 120,
+                      width: getProportionateScreenWidth(120),
                     ),
                   ),
                   SizedBox(height: 8),
@@ -57,7 +59,7 @@ class _LogInState extends State<LogIn> {
                           fontSize: 14),
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: getProportionateScreenHeight(4)),
                   Center(
                     child: Text(
                       'BuyLap',
@@ -69,7 +71,7 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                   SizedBox(
-                    height: 32,
+                    height: getProportionateScreenHeight(32),
                   ),
                   Text(
                     'Sign in to continue',
@@ -80,7 +82,7 @@ class _LogInState extends State<LogIn> {
                         fontFamily: 'Lato-Regular'),
                   ),
                   SizedBox(
-                    height: 32,
+                    height: getProportionateScreenHeight(32),
                   ),
                   Text(
                     'Email',
@@ -91,7 +93,7 @@ class _LogInState extends State<LogIn> {
                         fontFamily: 'Lato-Regular'),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: getProportionateScreenHeight(8),
                   ),
                   TextFormField(
                     controller: _emailController,
@@ -109,7 +111,7 @@ class _LogInState extends State<LogIn> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(
-                    height: 37,
+                    height: getProportionateScreenHeight(37),
                   ),
                   Text(
                     'Password',
@@ -120,7 +122,7 @@ class _LogInState extends State<LogIn> {
                         fontFamily: 'Lato-Regular'),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: getProportionateScreenHeight(8),
                   ),
                   TextFormField(
                     controller: _passwordController,
@@ -154,10 +156,10 @@ class _LogInState extends State<LogIn> {
                     keyboardType: TextInputType.text,
                   ),
                   SizedBox(
-                    height: 40,
+                    height: getProportionateScreenHeight(40),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: getProportionateScreenHeight(50),
                     width: double.infinity,
                     child: ElevatedButton(
                         style: ButtonStyle(
@@ -170,8 +172,7 @@ class _LogInState extends State<LogIn> {
                             ))),
                         onPressed: (() {
                           logIn();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext) => Home()));
+                         
                         }),
                         child: Text(
                           'Sign In',
@@ -184,7 +185,7 @@ class _LogInState extends State<LogIn> {
                         )),
                   ),
                   SizedBox(
-                    height: 36,
+                    height: getProportionateScreenHeight(36),
                   ),
                   Center(
                     child: RichText(
@@ -212,7 +213,7 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                   SizedBox(
-                    height: 45,
+                    height: getProportionateScreenHeight(45),
                   )
                 ],
               ),
@@ -237,13 +238,13 @@ class _LogInState extends State<LogIn> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text)
-          .then((value) => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (BuildContext) => Home())));
+              email: _emailController.text, password: _passwordController.text).then((value) => 
+           Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => Home(id: value.user!.uid.toString(),))));
     } on FirebaseAuthException catch (e) {
       failureSnackBar(context: context, message: e.message.toString());
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
 
     // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }

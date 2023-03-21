@@ -1,4 +1,5 @@
 import 'package:buylap/size_config.dart';
+import 'package:buylap/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:grazac_chat_app/screens/add_product.dart';
@@ -10,41 +11,58 @@ import 'package:flutter/material.dart';
 import 'add_product.dart';
 
 class Home extends StatefulWidget {
+  final String id;
+
+  Home({required this.id});
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final user = FirebaseAuth.instance.currentUser!;
+  // final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
-    SizeConfig();
+    SizeConfig.init(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        leading: null,
+        automaticallyImplyLeading: false,
+        // leading: null,
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AddProduct()));
                 //Implement logout functionality
               }),
         ],
-        title: Text('Available Products', selectionColor: Colors.black,),
+        title: Center(
+          child: Text(
+            'Available Products',
+            style: TextStyle(color: Colors.black),
+            selectionColor: Colors.black,
+          ),
+        ),
         backgroundColor: Color(0xfffec619),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfffec619),
         onPressed: () {
-          FirebaseAuth.instance.signOut();
-          Navigator.pop(context);
+          FirebaseAuth.instance.signOut().then((value) =>
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => SplashScreen())));
         },
-        child: Icon(Icons.logout, color: Colors.black,),
+        child: Icon(
+          Icons.logout,
+          color: Colors.black,
+        ),
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection(user.uid).snapshots(),
+          stream: FirebaseFirestore.instance.collection(widget.id).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -77,27 +95,29 @@ class _HomeState extends State<Home> {
                       ),
                       child: Row(
                         children: [
-                          Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.white,
-                                backgroundImage: NetworkImage(image),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                _newBalance,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              )
-                            ],
+                          Expanded(
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: NetworkImage(image),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(10),
+                                ),
+                                Text(
+                                  _newBalance,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
-                            width: 20,
+                            width: getProportionateScreenWidth(20),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,15 +125,15 @@ class _HomeState extends State<Home> {
                             children: [
                               infoRow(title: 'Name', value: name),
                               SizedBox(
-                                height: 10,
+                                height: getProportionateScreenHeight(10),
                               ),
                               infoRow(title: 'model', value: model),
                               SizedBox(
-                                height: 10,
+                                height: getProportionateScreenHeight(10),
                               ),
                               infoRow(title: 'description', value: desc),
                               SizedBox(
-                                height: 10,
+                                height: getProportionateScreenHeight(10),
                               ),
                               Row(
                                 // crossAxisAlignment: CrossAxisAlignment.end,
@@ -128,13 +148,13 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 35,
+                                    width: getProportionateScreenWidth(35),
                                   ),
                                   GestureDetector(
                                     onTap: () async {
                                       await FirebaseFirestore.instance
-                                          .collection(user.uid)
-                                          .doc(user.uid)
+                                          .collection(widget.id)
+                                          .doc(widget.id)
                                           .delete();
                                     },
                                     //                   FirebaseFirestore.instance
@@ -185,49 +205,6 @@ class _HomeState extends State<Home> {
               );
             }
           }),
-      // SafeArea(
-      //   child:
-      // Column(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   crossAxisAlignment: CrossAxisAlignment.stretch,
-      //   children: <Widget>[
-      //     Container(
-      //       decoration: kMessageContainerDecoration,
-      //       child: Row(
-      //         crossAxisAlignment: CrossAxisAlignment.center,
-      //         children: <Widget>[
-      //           Expanded(
-      //             child: TextField(
-      //               onChanged: (value) {
-      //                 //Do something with the user input.
-      //               },
-      //               decoration: kMessageTextFieldDecoration,
-      //             ),
-      //           ),
-      //           ElevatedButton(
-      //             onPressed: () {
-      //               //Implement send functionality.
-      //             },
-      //             child: Text(
-      //               'Send',
-      //               style: kSendButtonTextStyle,
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //     ElevatedButton(
-      //         onPressed: () {
-      //           // final double _height = MediaQuery.of(context).size.height;
-      //           // final double _weight = MediaQuery.of(context).size.width;
-
-      //           // print(_height);
-      //           // print(_weight);
-      //         },
-      //         child: Text('Log Out'))
-      //   ],
-      // ),
-      // ),
     );
   }
 

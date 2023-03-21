@@ -1,3 +1,4 @@
+import 'package:buylap/size_config.dart';
 import 'package:buylap/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +22,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -35,12 +37,12 @@ class _SignUpState extends State<SignUp> {
                     Center(
                       child: Image(
                         image: AssetImage('images/logo12.png'),
-                        height: 120,
-                        width: 120,
+                        height: getProportionateScreenHeight(120),
+                        width: getProportionateScreenWidth(120),
                       ),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: getProportionateScreenHeight(8),
                     ),
                     Center(
                       child: Text(
@@ -53,19 +55,19 @@ class _SignUpState extends State<SignUp> {
                             fontSize: 14),
                       ),
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: getProportionateScreenHeight(4)),
                     Center(
                       child: Text(
                         'BuyLap',
                         style: TextStyle(
                             fontFamily: 'Lobster-Regular',
-                            color: Colors.yellow,
+                            color: Color(0xfffec619),
                             fontWeight: FontWeight.w700,
                             fontSize: 26),
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: getProportionateScreenHeight(40),
                     ),
                     Text(
                       'First Name',
@@ -76,7 +78,7 @@ class _SignUpState extends State<SignUp> {
                           fontFamily: 'Lato-Regular'),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: getProportionateScreenHeight(8),
                     ),
                     TextFormField(
                       controller: _firstNameController,
@@ -96,12 +98,12 @@ class _SignUpState extends State<SignUp> {
                           color: Colors.black,
                         ),
                         fillColor: Colors.grey,
-                        hintText: 'Full name',
+                        hintText: 'First name',
                       ),
                       keyboardType: TextInputType.name,
                     ),
                     SizedBox(
-                      height: 8,
+                      height: getProportionateScreenHeight(8),
                     ),
                     Text(
                       'Last Name',
@@ -112,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                           fontFamily: 'Lato-Regular'),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: getProportionateScreenHeight(8),
                     ),
                     TextFormField(
                       controller: _lastNameController,
@@ -137,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.name,
                     ),
                     SizedBox(
-                      height: 12,
+                      height: getProportionateScreenHeight(12),
                     ),
                     Text(
                       'Email',
@@ -148,7 +150,7 @@ class _SignUpState extends State<SignUp> {
                           fontFamily: 'Lato-Regular'),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: getProportionateScreenHeight(8),
                     ),
                     TextFormField(
                         controller: _emailController,
@@ -173,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                           }
                         }),
                     SizedBox(
-                      height: 12,
+                      height: getProportionateScreenHeight(12),
                     ),
                     Text(
                       'Password',
@@ -184,7 +186,7 @@ class _SignUpState extends State<SignUp> {
                           fontFamily: 'Lato-Regular'),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: getProportionateScreenHeight(8),
                     ),
                     TextFormField(
                       controller: _passwordController,
@@ -225,7 +227,7 @@ class _SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.text,
                     ),
                     SizedBox(
-                      height: 70,
+                      height: getProportionateScreenHeight(70),
                     ),
                     SizedBox(
                       height: 50,
@@ -254,7 +256,7 @@ class _SignUpState extends State<SignUp> {
                           )),
                     ),
                     SizedBox(
-                      height: 36,
+                      height: getProportionateScreenHeight(36),
                     ),
                     Center(
                       child: RichText(
@@ -282,7 +284,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     SizedBox(
-                      height: 45,
+                      height: getProportionateScreenHeight(45),
                     ),
                   ]),
             ),
