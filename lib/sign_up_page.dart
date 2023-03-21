@@ -309,20 +309,22 @@ class _SignUpState extends State<SignUp> {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text)
-          .then((value) => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (BuildContext) => LogIn())));
-      //           FirebaseFirestore.instance
-      //     .collection('userData')
-      //     .doc(value.user!.uid)
-      //     .set({
-      //   'email': value.user!.email,
-      //   'first_name': _firstNameController.text,
-      //   'last_name': _lastNameController.text
-      // })
+          .then((value) {
+        FirebaseFirestore.instance
+            .collection('userData')
+            .doc(value.user!.uid)
+            .set({
+          'email': value.user!.email,
+          'first_name': _firstNameController.text,
+          'last_name': _lastNameController.text
+        });
+      });
+
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => LogIn()));
     } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       failureSnackBar(context: context, message: e.message.toString());
     }
-    Navigator.pop(context);
-    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

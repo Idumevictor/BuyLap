@@ -1,3 +1,38 @@
+import 'package:flutter/material.dart';
+
+// class ProductScreen extends StatefulWidget {
+//   final String image;
+//   final String name;
+//   final String model;
+//   final String price;
+//   final String description;
+
+//    ProductScreen({
+//     required this.description,
+//     required this.image,
+//     required this.model,
+//     required this.name,
+//     required this.price
+
+//    });
+
+//   @override
+//   State<ProductScreen> createState() => _ProductScreenState();
+// }
+
+// class _ProductScreenState extends State<ProductScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Update Product information'),
+
+//       ),
+//       body: ,
+//     );
+//   }
+// }
+
 import 'dart:io';
 
 import 'package:buylap/Home.dart';
@@ -12,14 +47,26 @@ import 'package:buylap/size_config.dart';
 import 'package:buylap/util.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProduct extends StatefulWidget {
-  const AddProduct({super.key});
+class UpdateProduct extends StatefulWidget {
+  final String image;
+  final String name;
+  final String model;
+  final String price;
+  final String description;
+  final String taskId;
+  UpdateProduct(
+      {required this.description,
+      required this.image,
+      required this.model,
+      required this.name,
+      required this.taskId,
+      required this.price});
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<UpdateProduct> createState() => _UpdateProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _UpdateProductState extends State<UpdateProduct> {
   final user = FirebaseAuth.instance.currentUser!;
   final _regKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
@@ -99,7 +146,7 @@ class _AddProductState extends State<AddProduct> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    SizeConfig.init(context);
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -115,7 +162,7 @@ class _AddProductState extends State<AddProduct> {
         backgroundColor: Color(0xfffec619),
         title: Center(
           child: Text(
-            'Add New Product',
+            'Add New Laptop',
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -150,36 +197,17 @@ class _AddProductState extends State<AddProduct> {
                                     builder: (context) => productImagePicker());
                               },
                               child: Container(
-                                //inner container
-                                height: getProportionateScreenHeight(200),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  color: Color(0xfffec619).withOpacity(0.8),
-                                  shape: BoxShape.rectangle,
-                                ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          getProportionateScreenHeight(53.2),
-                                    ),
-                                    Icon(Icons.picture_in_picture),
-                                    SizedBox(
-                                      height:
-                                          getProportionateScreenHeight(24.11),
-                                    ),
-                                    Text(
-                                      'Max size limit of 5MB',
-                                    ),
-                                    SizedBox(
-                                      height: getProportionateScreenHeight(8),
-                                    ),
-                                    Text(
-                                        'Only JPEG and PNG format are accepted')
-                                  ],
-                                ),
-                              ),
+                                  //inner container
+                                  height: getProportionateScreenHeight(200),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    color: Color(0xfffec619).withOpacity(0.8),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: Image(
+                                    image: NetworkImage(widget.image),
+                                  )),
                             )),
                       )
                     : Container(
@@ -225,14 +253,15 @@ class _AddProductState extends State<AddProduct> {
                 SizedBox(
                   height: getProportionateScreenHeight(20),
                 ),
+                inputField(inputController: _nameController, text: widget.name),
                 inputField(
-                    inputController: _nameController, text: 'Laptop Name'),
-                inputField(inputController: _priceController, text: 'Amount'),
+                    inputController: _priceController, text: widget.price),
                 inputField(
-                    inputController: _modelController, text: 'Laptop Model'),
+                    inputController: _modelController,
+                    text: widget.description),
                 inputField(
                     inputController: _descriptionController,
-                    text: 'Enter product description'),
+                    text: widget.model),
                 SizedBox(
                   height: getProportionateScreenHeight(50),
                 ),
@@ -250,10 +279,10 @@ class _AddProductState extends State<AddProduct> {
                             borderRadius: BorderRadius.circular(10.0),
                           ))),
                       onPressed: () {
-                        addProduct();
+                        updateProduct();
                       },
                       child: Text(
-                        'Submit',
+                        'Update',
                         style: TextStyle(color: Colors.black),
                       )),
                 )
@@ -374,7 +403,7 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  Future addProduct() async {
+  Future updateProduct() async {
     final isValid = _regKey.currentState!.validate();
     if (!isValid) return;
     if (imageUrl == null) {
@@ -384,7 +413,9 @@ class _AddProductState extends State<AddProduct> {
           context: context,
           barrierDismissible: false,
           builder: (context) => Center(
-                child: CircularProgressIndicator( color: Colors.white,),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               ));
 
       ProductModel product = ProductModel(
@@ -397,12 +428,15 @@ class _AddProductState extends State<AddProduct> {
       try {
         await FirebaseFirestore.instance
             .collection(user.uid)
-            .add(product.toJson());
+            .doc(widget.taskId)
+            .update(product.toJson());
 
-        
         Navigator.pop(context);
+        successSnackBar(context: context, message: 'Laptop Updated Successful');
         Navigator.pop(context);
       } on FirebaseException catch (e) {
+        Navigator.pop(context);
+
         failureSnackBar(context: context, message: e.message.toString());
       }
     }

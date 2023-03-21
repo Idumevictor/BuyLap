@@ -240,15 +240,14 @@ class _LogInState extends State<LogIn> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text)
-          .then((value) => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Home(
-                    id: value.user!.uid.toString(),
-                  ))));
+          .then((value) =>
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Home(
+                        id: value.user!.uid.toString(),
+                      ))));
     } on FirebaseAuthException catch (e) {
-      failureSnackBar(context: context, message: e.message.toString());
       Navigator.pop(context);
+      failureSnackBar(context: context, message: e.message.toString());
     }
-
-    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
