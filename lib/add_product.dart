@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:buylap/Home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -102,8 +103,22 @@ class _AddProductState extends State<AddProduct> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
         backgroundColor: Color(0xfffec619),
-        title: Text('Add New Product'),
+        title: Center(
+          child: Text(
+            'Add New Product',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
       ),
       body: Form(
         key: _regKey,
@@ -136,11 +151,11 @@ class _AddProductState extends State<AddProduct> {
                               },
                               child: Container(
                                 //inner container
-                                height: 200,
+                                height: getProportionateScreenHeight(200),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
-                                  color: Color(0xfffec619).withOpacity(0.2),
+                                  color: Color(0xfffec619).withOpacity(0.8),
                                   shape: BoxShape.rectangle,
                                 ),
                                 child: Column(
@@ -237,7 +252,10 @@ class _AddProductState extends State<AddProduct> {
                       onPressed: () {
                         addProduct();
                       },
-                      child: Text('Submit')),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.black),
+                      )),
                 )
               ],
             ),
@@ -366,7 +384,7 @@ class _AddProductState extends State<AddProduct> {
           context: context,
           barrierDismissible: false,
           builder: (context) => Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator( color: Colors.white,),
               ));
 
       ProductModel product = ProductModel(
@@ -381,7 +399,7 @@ class _AddProductState extends State<AddProduct> {
             .collection(user.uid)
             .add(product.toJson());
 
-        print('i don finish oo');
+        
         Navigator.pop(context);
         Navigator.pop(context);
       } on FirebaseException catch (e) {

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:grazac_chat_app/screens/add_product.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../constants.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,9 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               );
             } else if (snapshot.hasData) {
               final data = snapshot.data!;
@@ -157,9 +160,6 @@ class _HomeState extends State<Home> {
                                           .doc(widget.id)
                                           .delete();
                                     },
-                                    //                   FirebaseFirestore.instance
-                                    // .collection(user.uid)
-                                    // .add(product.toJson());
                                     child: Icon(
                                       Icons.delete,
                                       size: 18,

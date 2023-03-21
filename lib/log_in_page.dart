@@ -172,7 +172,6 @@ class _LogInState extends State<LogIn> {
                             ))),
                         onPressed: (() {
                           logIn();
-                         
                         }),
                         child: Text(
                           'Sign In',
@@ -232,15 +231,19 @@ class _LogInState extends State<LogIn> {
         context: context,
         barrierDismissible: false,
         builder: (context) => Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             ));
 
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text).then((value) => 
-           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Home(id: value.user!.uid.toString(),))));
+              email: _emailController.text, password: _passwordController.text)
+          .then((value) => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Home(
+                    id: value.user!.uid.toString(),
+                  ))));
     } on FirebaseAuthException catch (e) {
       failureSnackBar(context: context, message: e.message.toString());
       Navigator.pop(context);
